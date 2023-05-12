@@ -5,18 +5,28 @@ app = Flask(__name__)
 
 
 @app.route("/")
-def Index():
+def index():
     return render_template("index.html")
 
 
-@app.route("/name")
-def hello():
-    return f"hello Name"
+@app.route("/contact")
+def contact():
+    return render_template("contact.html")
 
 
-@app.route("/name/<path:age>")
-def age(age):
-    return f"Show your age is {age}"
+@app.route("/coffees")
+def coffees():
+    return render_template("coffees.html")
+
+
+@app.route("/blog")
+def blog():
+    return render_template("blog.html")
+
+
+@app.route("/about")
+def about():
+    return render_template("about.html")
 
 
 if __name__ == "__main__":
