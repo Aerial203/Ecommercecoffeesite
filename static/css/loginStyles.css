@@ -70,7 +70,7 @@ body {
 .input-group input {
   font-size: 1.25rem;
   padding: .5em;
-  background-color: hsl(var(--primary-light-hsl), .3);
+  /* background-color: hsl(var(--primary-light-hsl), .3); */
   border: none;
   outline: none;
   border-radius: .25em;
@@ -83,6 +83,10 @@ body {
   box-shadow: 0 0 0 1px hsl(var(--primary-hsl));
 }
 
-button {
-  color: var(--btn-color);
+.btn {
+  background-color: var(--btn-color);
+}
+
+.btn:hover {
+  background-color: hsl(var(--primary-light-hsl), .3);
 }
