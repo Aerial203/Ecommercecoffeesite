@@ -2,7 +2,6 @@ import os
 from flask_wtf.csrf import CSRFProtect
 from flask import Flask, redirect, render_template, request, url_for
 from flask_bootstrap import Bootstrap
-from markupsafe import escape
 from Forms import LoginForm
 
 app = Flask(__name__)
@@ -34,6 +33,13 @@ def contact():
 @app.route("/coffees")
 def coffees():
     return render_template("coffees.html")
+
+
+
+@app.route("/shop")
+def shop():
+    return "<h1>shop</h1>"
+
 
 
 @app.route("/blog")
