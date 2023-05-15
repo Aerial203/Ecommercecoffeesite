@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='css/loginStyles.css')}}">
-</head>
-<body>
+{% import "bootstrap/wtf.html" as wtf %}
 
+{% include 'header.html' %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/loginStyles.css')}}">
+ </head>
+   <body>
+    {{ form.csrf_token }}
+    {{ wtf.quick_form(form, novalidate=True) }}
 </body>
 </html>

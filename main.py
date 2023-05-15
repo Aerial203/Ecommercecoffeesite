@@ -1,7 +1,16 @@
-from flask import Flask, render_template
+import os
+from flask_wtf.csrf import CSRFProtect
+from flask import Flask, redirect, render_template, request, url_for
+from flask_bootstrap import Bootstrap
 from markupsafe import escape
+from Forms import LoginForm
 
 app = Flask(__name__)
+
+SECRET_KEY = os.urandom(32)
+app.config['SECRET_KEY'] = SECRET_KEY
+csrf = CSRFProtect(app)
+bootstrap = Bootstrap(app)
 
 
 @app.route("/")
@@ -9,9 +18,12 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/login")
+@app.route("/login", methods=["POST", "GET"])
 def login():
-    return render_template("login.html")
+    login_form = LoginForm()
+    if login_form.validate_on_submit():
+        return redirect(url_for("index"))
+    return render_template("login.html", form=login_form)
 
 
 @app.route("/contact")
