@@ -3,6 +3,8 @@ from flask_wtf.csrf import CSRFProtect
 from flask import Flask, redirect, render_template, request, url_for
 from flask_bootstrap import Bootstrap
 from Forms import LoginForm
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.sql import text
 
 app = Flask(__name__)
 
@@ -11,10 +13,19 @@ app.config['SECRET_KEY'] = SECRET_KEY
 csrf = CSRFProtect(app)
 bootstrap = Bootstrap(app)
 
+db = SQLAlchemy()
+
+db_name = "dbsqlite.db"
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + db_name
+
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+db.init_app(app)
 
 @app.route("/")
 def index():
     return render_template("index.html")
+
+
 
 
 @app.route("/login", methods=["POST", "GET"])

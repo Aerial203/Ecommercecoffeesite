@@ -1,5 +1,6 @@
 *, *::before, *::after {
   box-sizing: border-box;
+  margin: 0;  
 }
 
 :root {
@@ -9,6 +10,7 @@
   --success-hsl: 100, 60%, 50%;
   --error-hsl: 0, 60%, 50%;
   --btn-color: #d48272;
+  --error-color: #D2001A;
 }
 body {
   background-image: url("../images/banner-bg.png");
@@ -89,4 +91,8 @@ body {
 
 .btn:hover {
   background-color: hsl(var(--primary-light-hsl), .3);
+}
+
+.help-block {
+  color: var(--error-color);
 }
