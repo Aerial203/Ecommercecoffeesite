@@ -1,0 +1,17 @@
+<!-- {% import "bootstrap/wtf.html" as wtf %} -->
+
+{% include 'header.html' %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/loginStyles.css')}}">
+ </head>
+   <body>
+      {%include 'nav.html'%}
+      <div class="full-screen-container">
+        <div class="login-container">
+          <h1 class="login-title">Welcome</h1>
+            <div class="input-group">
+              {{ form.csrf_token }}
+              {{ wtf.quick_form(form, novalidate=True) }}
+            </div>
+          </div>
+      </div>
+{% include 'footer.html' %}
