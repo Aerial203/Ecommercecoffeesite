@@ -1,23 +1,24 @@
+from collections import UserList
 import os
 from flask_wtf.csrf import CSRFProtect
 from flask import Flask, redirect, render_template, request, url_for, flash
 from flask_bootstrap import Bootstrap
 from Forms import LoginForm, RegisterForm
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import login_user, LoginManager, login_required, current_user, logout_user
 # from sqlalchemy.sql import text
 
 app = Flask(__name__)
 
 SECRET_KEY = os.urandom(32)
+
 app.config['SECRET_KEY'] = SECRET_KEY
 csrf = CSRFProtect(app)
 bootstrap = Bootstrap(app)
-
 db = SQLAlchemy()
 
 db_name = "dbsqlite.db"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + db_name
-
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db.init_app(app)
 
@@ -25,9 +26,9 @@ db.init_app(app)
 class User(db.Model):
     __tablename__ = 'User'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100))
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100))
+    name = db.Column(db.String(100)) 
 
 
 with app.app_context():
@@ -44,7 +45,16 @@ def index():
 def login():
     login_form = LoginForm()
     if login_form.validate_on_submit():
-        return redirect(url_for("index"))
+        email = login_form.email.data
+        password = login_form.data
+        user = User.query.filter_by(email=login_form.email.data).first()
+
+        if not user:
+            flash("That email does not exist, please try again.")
+            return redirect(url_for('login'))
+        else:
+            login_user(user)
+            return redirect(url_for('get_all_posts')) 
     return render_template("login.html", form=login_form)
 
 
@@ -52,19 +62,21 @@ def login():
 def register():
     register_form = RegisterForm()
     if register_form.validate_on_submit():
-            # if User.query.filter_by(email=register_form.email.data).first():
-            #     print(User.query.filter_by(email=register_form.email.data).first())
-            #     flash("You've already signed up with that email, log in instead!")
-            #     return redirect(url_for('login'))
+        if User.query.filter_by(email=register_form.email.data).first():
+            print(User.query.filter_by(email=register_form.email.data).first())
+            # User already exists
+            flash("You've already signed up with that email, log in instead!")
+            return redirect(url_for('login'))
         new_user = User(
-            name=register_form.name.data,
             email=register_form.email.data,
-            password=register_form.password.data
+            password=register_form.password.data,
+            name=register_form.name.data
         )
+
         db.session.add(new_user)
         db.session.commit()
-        return redirect(url_for("index"))
-
+        return redirect(url_for('index'))
+        
     return render_template("register.html", form=register_form)
 
 
