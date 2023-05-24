@@ -26,6 +26,7 @@
              </li>
           </ul>
           <form class="form-inline my-2 my-lg-0">
+            {%if not current_user.is_authenticated: %}
              <div class="login_bt">
                 <ul>
                    <li><a href="{{url_for('register')}}"><span class="user_icon"><i class="fa fa-user" aria-hidden="true"></i></span>Register</a></li>
@@ -38,6 +39,14 @@
                   <!-- <li><a href="#"><i class="fa fa-search fa-sm" aria-hidden="true"></i></a></li> -->
                </ul>
             </div>
+            {%else:%}
+            <div class="login_bt">
+               <ul>
+                  <li><a href="{{url_for('logout')}}"><span class="user_icon"><i class="fa fa-user" aria-hidden="true"></i></span>Logout</a></li>
+                  <!-- <li><a href="#"><i class="fa fa-search fa-sm" aria-hidden="true"></i></a></li> -->
+               </ul>
+            </div>
+            {%endif%}
           </form>
        </div>
     </nav>

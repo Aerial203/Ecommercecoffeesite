@@ -1,11 +1,12 @@
 from collections import UserList
 import os
+from threading import currentThread
 from flask_wtf.csrf import CSRFProtect
 from flask import Flask, redirect, render_template, request, url_for, flash
 from flask_bootstrap import Bootstrap
 from Forms import LoginForm, RegisterForm
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import login_user, LoginManager, login_required, current_user, logout_user
+from flask_login import login_user, LoginManager, login_required, current_user, logout_user, UserMixin
 # from sqlalchemy.sql import text
 
 app = Flask(__name__)
@@ -16,14 +17,19 @@ app.config['SECRET_KEY'] = SECRET_KEY
 csrf = CSRFProtect(app)
 bootstrap = Bootstrap(app)
 db = SQLAlchemy()
-
 db_name = "dbsqlite.db"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + db_name
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db.init_app(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
 
 
-class User(db.Model):
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+class User(UserMixin, db.Model):
     __tablename__ = 'User'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), unique=True)
@@ -44,18 +50,18 @@ def index():
 @app.route("/login", methods=["POST", "GET"])
 def login():
     login_form = LoginForm()
+    print(current_user.is_authenticated)
     if login_form.validate_on_submit():
         email = login_form.email.data
-        password = login_form.data
-        user = User.query.filter_by(email=login_form.email.data).first()
+        user = User.query.filter_by(email=email).first()
 
         if not user:
             flash("That email does not exist, please try again.")
             return redirect(url_for('login'))
         else:
             login_user(user)
-            return redirect(url_for('get_all_posts')) 
-    return render_template("login.html", form=login_form)
+            return redirect(url_for('shop')) 
+    return render_template("login.html", form=login_form, current_user=current_user)
 
 
 @app.route("/register", methods=["POST", "GET"])
@@ -75,10 +81,15 @@ def register():
 
         db.session.add(new_user)
         db.session.commit()
-        return redirect(url_for('index'))
+        return redirect(url_for('shop'))
         
-    return render_template("register.html", form=register_form)
+    return render_template("register.html", form=register_form, current_user=current_user)
 
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
 
 
 @app.route("/contact")
@@ -94,7 +105,8 @@ def coffees():
 
 @app.route("/shop")
 def shop():
-    return "<h1>shop</h1>"
+    print(current_user.is_authenticated)
+    return render_template('shop.html')
 
 
 
