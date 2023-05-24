@@ -1,4 +1,3 @@
-from collections import UserList
 import os
 from threading import currentThread
 from flask_wtf.csrf import CSRFProtect
