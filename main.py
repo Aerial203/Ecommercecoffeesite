@@ -6,6 +6,7 @@ from flask_bootstrap import Bootstrap
 from Forms import LoginForm, RegisterForm
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import login_user, LoginManager, login_required, current_user, logout_user, UserMixin
+from data import data
 # from sqlalchemy.sql import text
 
 app = Flask(__name__)
@@ -52,10 +53,14 @@ def login():
     print(current_user.is_authenticated)
     if login_form.validate_on_submit():
         email = login_form.email.data
+        password = login_form.password.data
         user = User.query.filter_by(email=email).first()
 
         if not user:
             flash("That email does not exist, please try again.")
+            return redirect(url_for('login'))
+        elif user.password != password:
+            flash('Password incorrect, please try again.')
             return redirect(url_for('login'))
         else:
             login_user(user)
@@ -85,6 +90,12 @@ def register():
     return render_template("register.html", form=register_form, current_user=current_user)
 
 
+
+@app.route("/checkout")
+def checkout():
+    return render_template("checkout.html")
+
+
 @app.route("/logout")
 def logout():
     logout_user()
@@ -105,7 +116,7 @@ def coffees():
 @app.route("/shop")
 def shop():
     print(current_user.is_authenticated)
-    return render_template('shop.html')
+    return render_template('shop.html', data=data)
 
 
 

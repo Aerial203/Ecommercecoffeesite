@@ -18,6 +18,10 @@ body {
   background-position: center;
 }
 
+.error-text {
+  color: var(--error-color);
+}
+
 .full-screen-container {
   height: 80vh;
   width: 100vw;
