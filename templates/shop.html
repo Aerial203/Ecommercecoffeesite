@@ -2,14 +2,27 @@
 <link rel="stylesheet" href="{{url_for('static', filename='css/shop.css')}}">
 {%include 'nav.html'%}
 
-<form action="{{url_for('shop')}}" meothod=>
-    <select name="" id="">
-        <option value="-1">Category</option>
-        <option value="1">Organic</option>
-        <option value="2">Inorganicy</option>
-    </select>
-</form>
-
+<main>
+    <section class="sidebar">
+      <h2>Categories</h2>
+      <ul class="category-list">
+        <li><a href="{{url_for('shop', category='organic')}}">Organic</a></li>
+        <li><a href="{{url_for('shop', category='inorganic')}}">Inorganic</a></li>
+        <li><a href="{{url_for('shop', category='manufactored')}}">Manufactured</a></li>
+      </ul>
+    </section>
+    <section class="product-list">
+      {%for dat in data: %}
+          <div class="product">
+            <img src="{{url_for('static', filename='images/banner-img.png')}}" alt="Product 1">
+            <h3>{{dat.name}}</h3>
+            <p>${{dat.price}}</p>
+            <button>Add to Cart</button>
+          </div>
+      {%endfor%}
+      <!-- Add more product items here -->
+    </section>
+  </main>
 
 
 

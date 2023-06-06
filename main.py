@@ -1,5 +1,6 @@
 import os
 from threading import currentThread
+from unicodedata import category
 from flask_wtf.csrf import CSRFProtect
 from flask import Flask, redirect, render_template, request, url_for, flash
 from flask_bootstrap import Bootstrap
@@ -64,7 +65,7 @@ def login():
             return redirect(url_for('login'))
         else:
             login_user(user)
-            return redirect(url_for('shop')) 
+            return redirect(url_for('shop', category='organic')) 
     return render_template("login.html", form=login_form, current_user=current_user)
 
 
@@ -85,7 +86,7 @@ def register():
 
         db.session.add(new_user)
         db.session.commit()
-        return redirect(url_for('shop'))
+        return redirect(url_for('shop', category='organic'))
         
     return render_template("register.html", form=register_form, current_user=current_user)
 
@@ -113,12 +114,17 @@ def coffees():
 
 
 
-@app.route("/shop")
-def shop():
-    print(current_user.is_authenticated)
-    return render_template('shop.html', data=data)
-
-
+@app.route("/shop/<category>")
+def shop(category):
+    organic_data, inorganic_data, manufactored_data = data[0]["organic"], data[1]["inorganic"], data[2]["manufactored"]
+    print(category)
+    
+    if category == "organic":
+        return render_template('shop.html', data=organic_data)
+    elif category == "inorganic":
+        return render_template('shop.html', data=inorganic_data)
+    else:
+        return render_template('shop.html', data=manufactored_data)
 
 @app.route("/blog")
 def blog():
