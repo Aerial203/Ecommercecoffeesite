@@ -288,7 +288,7 @@ button {
 .login_bt li a {
     float: left;
     font-size: 18px;
-    color: #d98473;
+    color: #B70404;
     text-transform: uppercase;
     padding: 0px 0px 0px 50px;
 }
@@ -499,10 +499,10 @@ button {
     width: 100%;
     float: left;
     font-size: 16px;
-    color: #d78373;
+    color: #B70404;
     text-align: center;
     border-radius: 5px;
-    border: 1px solid #d78373;
+    border: 1px solid #B70404;
     text-transform: uppercase;
     padding: 8px;
 }
