@@ -1,3 +1,32 @@
+<style>
+   .cart {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.cart i {
+  font-size: 24px;
+  color: #555;
+  margin-left: 1rem;
+}
+
+.label {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #ff3b30;
+  color: #fff;
+  border-radius: 50%;
+  padding: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  min-width: 16px;
+  text-align: center;
+}
+
+</style>
+
 <div class="container-fluid">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
        <a class="navbar-brand"href="{{url_for('index')}}"><img src="{{url_for('static', filename='images/logo.png')   }}"></a>
@@ -40,6 +69,10 @@
                </ul>
             </div>
             {%else:%}
+            <div class="cart">
+               <i class="fas fa-shopping-cart"></i>
+               <span class="label">1</span>
+             </div>
             <div class="login_bt">
                <ul>
                   <li><a href="{{url_for('logout')}}"><span class="user_icon"><i class="fa fa-user" aria-hidden="true"></i></span>Logout</a></li>
