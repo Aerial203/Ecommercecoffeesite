@@ -95,7 +95,10 @@ def register():
 
 @app.route("/checkout")
 def checkout():
-    return render_template("checkout.html")
+    total = 0
+    for t in USER_ADD_CART:
+        total += round(float(t['price']), 2)
+    return render_template("checkout.html", cart_items = USER_ADD_CART, total=total)
 
 
 @app.route("/logout")
@@ -116,6 +119,22 @@ def coffees():
 
 @app.route("/add_to_cart", methods=['POST'])
 def add_to_cart():
+    id = int(request.form.get('product_id'))
+    name = request.form.get('product_name')
+    price = request.form.get('product_price')
+
+    for cart in USER_ADD_CART:
+        if cart != None and cart["id"] == id:
+            cart['quantity'] += 1
+            break
+    else:
+        USER_ADD_CART.append({
+            "id": id,
+            "name": name,
+            "price": price,
+            "quantity": 1
+        })
+        
     return redirect(url_for('shop', category='organic'))
 
 
