@@ -24,6 +24,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db.init_app(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
+USER_ADD_CART = []
 
 
 @login_manager.user_loader
@@ -113,11 +114,15 @@ def coffees():
     return render_template("coffees.html")
 
 
+@app.route("/add_to_cart", methods=['POST'])
+def add_to_cart():
+    return redirect(url_for('shop', category='organic'))
+
+
 
 @app.route("/shop/<category>")
 def shop(category):
     organic_data, inorganic_data, manufactored_data = data[0]["organic"], data[1]["inorganic"], data[2]["manufactored"]
-    print(category)
     
     if category == "organic":
         return render_template('shop.html', data=organic_data)

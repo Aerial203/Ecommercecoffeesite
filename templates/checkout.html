@@ -1,0 +1,58 @@
+{%include 'header.html'%}
+</head>
+<link rel="stylesheet" href="{{url_for('static', filename='css/checkout.css')}}">
+<body>
+    <div class="header_section header_bg">
+        {%include 'nav.html'%}\
+    </div>
+        <main>
+            <section id="order-summary">
+              <h2>Order Summary</h2>
+              <table>
+                <tr>
+                  <th>Product</th>
+                  <th>Quantity</th>
+                  <th>Price</th>
+                </tr>
+                <!-- Add rows dynamically here using JavaScript or server-side rendering -->
+                <tr>
+                    <td>coffee</td>
+                    <td>2</td>
+                    <td>$2</td>
+                </tr>
+              </table>
+              <p class="total">Total: $6</p>
+              <a href="#" class="edit-link">Edit Order</a>
+            </section>
+        
+            <section id="billing-shipping">
+              <h2>Billing and Shipping Information</h2>
+              <!-- Add form fields for customer details here -->
+            </section>
+        
+            <section id="payment">
+              <h2>Payment Information</h2>
+              <!-- Add form fields for payment details here -->
+            </section>
+        
+            <section id="shipping-method">
+              <h2>Shipping Method</h2>
+              <!-- Add shipping options here -->
+            </section>
+        
+            <section id="order-review">
+              <h2>Order Review</h2>
+              <!-- Display final order details for customer confirmation -->
+            </section>
+        
+            <section id="terms">
+              <label>
+                <input type="checkbox" name="terms" required> I agree to the terms and conditions.
+              </label>
+            </section>
+        
+            <button type="submit" id="place-order">Place Order</button>
+          </main>
+        
+{%include 'footer.html'%}
+

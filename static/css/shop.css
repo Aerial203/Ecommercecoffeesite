@@ -12,6 +12,10 @@ body {
     padding: 3rem;
   }
 
+  p {
+    margin: 0;
+  }
+
   
   .sidebar {
     flex: 0 0 200px;

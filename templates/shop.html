@@ -16,10 +16,20 @@
           <div class="product">
             <img src="{{url_for('static', filename='images/banner-img.png')}}" alt="Product 1">
             <h3>{{dat.name}}</h3>
-            <p>${{dat.price}}</p>
+            <p>Price: ${{dat.price}}</p>
             <!-- <button>Add to Cart</button> -->
-            <div class="read_bt"><a href="">Add to cart</a></div>
+            <form action="{{url_for('add_to_cart')}}" method="POST">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <input type="hidden" name="product_name" value={{dat.name}}>
+              <input type="hidden" name="product_id" value={{dat.id}}>
+              <input type="hidden" name="product_price" value={{dat.price}}>
+              <button type="submit">Add to Cart</button>
+            </form>
+           
           </div>
+          <script>
+            
+          </script>
       {%endfor%}
       <!-- Add more product items here -->
     </section>
