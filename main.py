@@ -100,7 +100,7 @@ def register():
 
 @app.route("/checkout")
 def checkout():
-    return render_template("checkout.html", cart_items = USER_ADD_CART, total=getTotal(), Esewadone="", cashPayment="")
+    return render_template("checkout.html", cart_items = USER_ADD_CART, total=getTotal(), Esewadone="", cashPayment="", current_user=current_user)
 
 
 @app.route("/logout")
@@ -121,6 +121,8 @@ def coffees():
 
 @app.route("/add_to_cart", methods=['POST'])
 def add_to_cart():
+    if not current_user.is_authenticated:
+        return redirect(url_for('shop', category='organic'))
     id = int(request.form.get('product_id'))
     name = request.form.get('product_name')
     price = request.form.get('product_price')
@@ -166,11 +168,13 @@ def EsewaSuccess():
 
 @app.route("/cashPayment")
 def cashPayment():
-    return render_template("checkout.html", cart_items = USER_ADD_CART, total=getTotal(), Esewadone="", cashPayment="OK")
+    return render_template("checkout.html", cart_items = USER_ADD_CART, total=getTotal(), Esewadone="", cashPayment="Ok")
  
-@app.route("/success")
-def success():
-    pass
+@app.route("/paymentStatus", methods=['POST'])
+def paymentStatus():
+    if request.form.get('esewaPayment') or request.form.get("cashPayment"):
+        return render_template("paymentStatus.html", payment=True)
+    return render_template("paymentStatus.html", payment=False)
 
 @app.route("/blog")
 def blog():

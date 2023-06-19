@@ -1,0 +1,14 @@
+body {
+    background-image: url(../images/banner-bg.png);
+}
+
+h1, h2, h3 {
+    color: #333;
+    text-align: center;
+}
+
+div {
+    margin-top: 0;
+    width: 100%;
+    text-align: center;
+}

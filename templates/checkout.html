@@ -46,8 +46,13 @@
                 <span>{{item.name}} |</span>
               {%endfor%} 
             </section>
-        
-            <button type="submit" id="place-order">Place Order</button>
+          <form action="/paymentStatus" method="post">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="esewaPayment" value="{{Esewadone}}">
+            <input type="hidden" name="cashPayment" value="{{cashPayment}}">
+            <button type="submit" class="btn btn-outline-danger" id="place-order">Place Order</button>
+          </form>
+            
           </main>
         
 {%include 'footer.html'%}

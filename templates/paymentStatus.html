@@ -1,0 +1,18 @@
+{%include 'header.html'%}
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/success.css') }}">
+{%include 'nav.html'%}
+    <div>
+        <h1>Coffee - Payment</h1>
+        <hr>
+        {%if payment:%}
+            <h2>Payment Successful</h2>
+            <p>Thank you for your payment.</p>
+        {%else: %}
+            <h2>Payment unsuccessful</h2>
+            <p>check all over again.</p>
+        {%endif%}
+    </div>
+   
+
+{%include 'footer.html'%}
