@@ -28,30 +28,23 @@
               <a href="#" class="edit-link">Edit Order</a>
             </section>
         
-            <section id="billing-shipping">
-              <h2>Billing and Shipping Information</h2>
-              <!-- Add form fields for customer details here -->
-            </section>
         
             <section id="payment">
-              <h2>Payment Information</h2>
+              <h2>Payment Method</h2>
               <!-- Add form fields for payment details here -->
+                <div class="read_bt"><a href="{{url_for('payment')}}">Esewa</a></div>
+                <span>{{Esewadone}}</span>
+                <div class="read_bt"><a href="{{url_for('cashPayment')}}">Chash On delivery</a></div>
+                <span>{{cashPayment}}</span>
             </section>
         
-            <section id="shipping-method">
-              <h2>Shipping Method</h2>
-              <!-- Add shipping options here -->
-            </section>
         
             <section id="order-review">
               <h2>Order Review</h2>
               <!-- Display final order details for customer confirmation -->
-            </section>
-        
-            <section id="terms">
-              <label>
-                <input type="checkbox" name="terms" required> I agree to the terms and conditions.
-              </label>
+              {%for item in cart_items:%}
+                <span>{{item.name}} |</span>
+              {%endfor%} 
             </section>
         
             <button type="submit" id="place-order">Place Order</button>

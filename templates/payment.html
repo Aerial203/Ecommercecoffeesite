@@ -1,0 +1,18 @@
+{%include 'header.html'%}
+<link rel="stylesheet" href="{{url_for('static', filename='css/payment.css')}}">
+{%include 'nav.html'%}
+
+<h1 class="payment-heading">E-commerce Store - Payment</h1>
+    <hr>
+    <h2 class="payment-heading">Payment Details</h2>
+    <form action="/EsewaSuccess" method="POST" class="form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <label for="amount">Amount:</label>
+        <input type="text" id="amount" name="amount" required value="{{total}}" onkeydown="return false">
+        <button type="submit">Pay Now</button>
+    </form>
+
+
+{%include 'footer.html'%}

@@ -8,7 +8,6 @@ from Forms import LoginForm, RegisterForm
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import login_user, LoginManager, login_required, current_user, logout_user, UserMixin
 from data import data
-# from sqlalchemy.sql import text
 
 app = Flask(__name__)
 
@@ -26,6 +25,12 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 USER_ADD_CART = []
 
+
+def getTotal():
+    total = 0
+    for t in USER_ADD_CART:
+        total += float(t['price'])
+    return round(total, 2)
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -95,10 +100,7 @@ def register():
 
 @app.route("/checkout")
 def checkout():
-    total = 0
-    for t in USER_ADD_CART:
-        total += round(float(t['price']), 2)
-    return render_template("checkout.html", cart_items = USER_ADD_CART, total=total)
+    return render_template("checkout.html", cart_items = USER_ADD_CART, total=getTotal(), Esewadone="", cashPayment="")
 
 
 @app.route("/logout")
@@ -149,6 +151,26 @@ def shop(category):
         return render_template('shop.html', data=inorganic_data)
     else:
         return render_template('shop.html', data=manufactored_data)
+    
+
+
+@app.route("/payment")
+def payment():
+    return render_template("payment.html", total=getTotal())
+
+
+@app.route("/EsewaSuccess", methods=["POST"])
+def EsewaSuccess():
+    return render_template("checkout.html", cart_items = USER_ADD_CART, total=getTotal(), Esewadone="Ok", cashPayment="")
+
+
+@app.route("/cashPayment")
+def cashPayment():
+    return render_template("checkout.html", cart_items = USER_ADD_CART, total=getTotal(), Esewadone="", cashPayment="OK")
+ 
+@app.route("/success")
+def success():
+    pass
 
 @app.route("/blog")
 def blog():
